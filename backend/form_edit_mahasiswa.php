@@ -95,7 +95,7 @@ function test_input($data)
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-        <a class="navbar-brand mr-1" href="index.php">Start Bootstrap</a>
+        <a class="navbar-brand mr-1" href="index.php">PRESENSI MAHASISWA TEKNIK INFORMATIKA</a>
 
         <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
             <i class="fas fa-bars"></i>
@@ -104,7 +104,7 @@ function test_input($data)
         <!-- Navbar Search -->
         <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">
             <div class="input-group">
-                <input type="text" class="form-control" placeholder="Search for..." aria-label="Search"
+                <input type="text" class="form-control" placeholder="Cari..." aria-label="Search"
                     aria-describedby="basic-addon2">
                 <div class="input-group-append">
                     <button class="btn btn-primary" type="button">
@@ -175,13 +175,13 @@ if ($_SESSION['role'] == "Admin") {
             <li class="nav-item active">
                 <a class="nav-link" href="tables-mahasiswa.php">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Table Products</span></a>
+                    <span>Table Mahasiswa</span></a>
             </li>
 
             <li class="nav-item">
                 <a class="nav-link" href="tables-customer.php">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Table Customers</span></a>
+                    <span>Table Presensi</span></a>
             </li>
 
         </ul>
