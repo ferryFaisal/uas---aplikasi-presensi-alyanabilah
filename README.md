@@ -1,5 +1,9 @@
 PETUNJUK PENGERJAAN UJIAN AKHIR SEMESTER - PRAKTIKUM PEMROGRAMAN WEB
 --------------------------------------------------------------------
+Nama : Alya Nabilah Dwianda
+Kelas : 5B
+NIM : 3202016113
+
 
 Buatlah aplikasi Presensi Mahasiswa dengan ketentuan sebagai berikut:
 1. Pengguna aplikasi adalah Dosen (role: dosen) dan Staf Admin Prodi (role: admin). 
