@@ -205,6 +205,7 @@ if (mysqli_num_rows($result) > 0) {
                                         <td><?php echo $row['kelas'] ?></td>
                                         <td><?php echo $row['nim'] ?></td>
                                         <td><?php echo $row['nama'] ?></td>
+                                        <td><?php echo $row['status_presensi'] ?></td>
 
 
 

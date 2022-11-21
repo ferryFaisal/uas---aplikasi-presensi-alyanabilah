@@ -28,12 +28,13 @@ if (mysqli_num_rows($result) > 0) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
     // nim section
     if (empty($_POST["nim"])) {
         $nimErr = "NIM is required";
         $valid_nim = false;
     } else {
-        $nim = test_input($_POST["nim"]);
+        $nim1 = test_input($_POST["nim"]);
         $valid_nim = true;
     }
 
@@ -42,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $namaErr = "Name is Required";
         $valid_nama = false;
     } else {
-        $nama = test_input($_POST["nama"]);
+        $nama1 = test_input($_POST["nama"]);
         $valid_nama = true;
 
     }
@@ -51,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $classErr = "Class is required";
         $valid_class = false;
     } else {
-        $class = test_input($_POST["kelas"]);
+        $class1 = test_input($_POST["kelas"]);
         $valid_class = true;
     }
 
@@ -210,7 +211,7 @@ if ($_SESSION['role'] == "Admin") {
                         <div class="card-body">
 
                         <p><span class="error">* required field</span></p>
-                            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+                            <form method="post"
                                 ENCTYPE="multipart/form-data">
 
                                 NIM : <input type="number" min="1" step="any" name="nim"
@@ -231,6 +232,7 @@ if ($_SESSION['role'] == "Admin") {
                                 </select>
                                 <br><br>
                                 <input type="submit" name="submit" value="Submit" class="btn btn-primary">
+
                             </form>
 
 
@@ -238,6 +240,7 @@ if ($_SESSION['role'] == "Admin") {
 if ($valid_nim && $valid_nama && $valid_class == true) {
 
     include 'edit_data_mahasiswa.php';
+
 }
 ?>
                         </div>
