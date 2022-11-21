@@ -1,7 +1,7 @@
 PETUNJUK PENGERJAAN UJIAN AKHIR SEMESTER - PRAKTIKUM PEMROGRAMAN WEB
 --------------------------------------------------------------------
 Nama : Alya Nabilah Dwianda
-Kelas : 5B
+Kelas : 5A
 NIM : 3202016113
 
 
