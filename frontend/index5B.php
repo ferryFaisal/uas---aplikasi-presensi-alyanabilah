@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $tgl = $_POST['tgl'];
     $makul = $_POST['makul'];
     $nama = $_POST['nama'];
-    $kelas = '5A';
+    $kelas = '5B';
     $nim = $_POST['nim'];
     $presensi = $_POST['presensi'];
     $count = count($nim);
@@ -97,15 +97,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
               <div class="col-md-4">
                 <div class="form-label-group">
-                  <!-- <select name="kelas" id="kelas" class="form-control" autofocus="autofocus">
-                    <option  value=""> -- Pilih Kelas -- </option>
-                    <option  selected value="5A"> 5A </option>
-                    <option value="5B"> 5B </option>
-                  </select> -->
-                  <p class="text-center">
+                <p class="text-center">
                     Pilih Kelas
-          <a class="btn btn-primary btn-block active" href="index.php">5A</a>
-          <a class="btn btn-primary btn-block" href="index5B.php">5B</a></p>
+          <a class="btn btn-primary btn-block " href="index.php">5A</a>
+          <a class="btn btn-primary btn-block active" href="index5B.php">5B</a></p>
                 </div>
               </div>
             </div><hr>
@@ -116,7 +111,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div><hr>
             <?php
 
-$sql = "select * from mahasiswa where kelas = '5A'";
+$sql = "select * from mahasiswa where kelas = '5B' order by nim ";
 $result = mysqli_query($conn, $sql);
 if (mysqli_num_rows($result) > 0) {
     // output data of each row

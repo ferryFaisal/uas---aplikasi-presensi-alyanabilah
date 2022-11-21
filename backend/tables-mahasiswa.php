@@ -121,12 +121,12 @@ if ($_SESSION['role'] == "Admin") {
 }
 ?>
             <li class="nav-item active">
-                <a class="nav-link" href="tables-product.php">
+                <a class="nav-link" href="tables-mahasiswa.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Table Mahasiswa</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="tables-customers.php">
+                <a class="nav-link" href="tables-presensi.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Table Presensi</span></a>
             </li>
@@ -193,10 +193,10 @@ if (mysqli_num_rows($result) > 0) {
                                         <td><?php echo $row['kelas'] ?></td>
 
                                         <td>
-                                            <a href='form_edit_product.php?id=<?php echo $row['id'] ?>'><i
+                                            <a href='form_edit_mahasiswa.php?id=<?php echo $row['id'] ?>'><i
                                                     class="bi bi-pen"></i></a> |
                                             <a onclick="return confirm ('Are you sure ?')"
-                                                href='delete_data_product.php?id=<?php echo $row['id'] ?>'><i
+                                                href='delete_data_mahasiswa.php?id=<?php echo $row['id'] ?>'><i
                                                     class="bi bi-trash"></i></a>
                                         </td>
 

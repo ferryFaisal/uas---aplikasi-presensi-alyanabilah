@@ -140,12 +140,12 @@ if ($_SESSION['role'] == "Admin") {
 }
 ?>
             <li class="nav-item">
-                <a class="nav-link" href="tables-product.php">
+                <a class="nav-link" href="tables-mahasiswa.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Table Mahasiswa</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="tables-customers.php">
+                <a class="nav-link" href="tables-presensi.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Table Presensi</span></a>
             </li>
@@ -234,7 +234,7 @@ $cek7 = mysqli_num_rows($result7);
                                 <div class="mr-3">Total Mahasiswa : <?php echo $cek3 ?></div>
                                 <div class="mr-3">Total Mahasiswa Today: <?php echo $cek6 ?></div>
                             </div>
-                            <a class="card-footer text-white clearfix small z-1" href="tables-product.php">
+                            <a class="card-footer text-white clearfix small z-1" href="tables-mahasiswa.php">
                                 <span class="float-left">View Details</span>
                                 <span class="float-right">
                                     <i class="fas fa-angle-right"></i>
@@ -253,7 +253,7 @@ $cek7 = mysqli_num_rows($result7);
                                 <div class="mr-3">Total Presensi : <?php echo $cek5 ?></div>
 
                             </div>
-                            <a class="card-footer text-white clearfix small z-1" href="tables-customers.php">
+                            <a class="card-footer text-white clearfix small z-1" href="tables-presensi.php">
                                 <span class="float-left">View Details</span>
                                 <span class="float-right">
                                     <i class="fas fa-angle-right"></i>
@@ -371,10 +371,10 @@ if (mysqli_num_rows($result1) > 0) {
 
 
                                         <td>
-                                            <a href='form_edit_product.php?id=<?php echo $row1['id'] ?>'><i
+                                            <a href='form_edit_mahasiswa.php?id=<?php echo $row1['id'] ?>'><i
                                                     class="bi bi-pen"></i></a> |
                                             <a onclick="return confirm ('Are you sure ?')"
-                                                href='delete_data_product.php?id=<?php echo $row1['id'] ?>'><i
+                                                href='delete_data_mahasiswa.php?id=<?php echo $row1['id'] ?>'><i
                                                     class="bi bi-trash"></i></a>
                                         </td>
 

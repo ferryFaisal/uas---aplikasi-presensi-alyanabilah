@@ -237,12 +237,12 @@ if ($cek2 > 0) {
                     <span>Table Users</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="tables-product.php">
+                <a class="nav-link" href="tables-mahasiswa.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Table Mahasiswa</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="tables-customers.php">
+                <a class="nav-link" href="tables-presensi.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Table Presensi</span></a>
             </li>

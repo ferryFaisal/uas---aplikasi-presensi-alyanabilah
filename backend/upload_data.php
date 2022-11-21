@@ -15,7 +15,7 @@ $sql = "INSERT INTO mahasiswa (nim, nama, kelas)
 if (mysqli_query($conn, $sql)) {
     echo "data berhasil dimasukkan ke database";
 
-    header('Location: tables-product.php');
+    header('Location: tables-mahasiswa.php');
     ob_end_flush();
 
 } else {

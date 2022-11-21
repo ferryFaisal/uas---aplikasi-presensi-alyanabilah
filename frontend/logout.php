@@ -2,11 +2,11 @@
 
 session_start();
 
-if (isset($_SESSION['login'])) {
-    unset($_SESSION);
+if (isset($_SESSION['loginfront'])) {
+    unset($_SESSION['loginfront']);
 
     session_destroy();
 
 //
-    header('location: index.php');
+    header('location: login.php');
 }

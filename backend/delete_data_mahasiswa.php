@@ -8,7 +8,7 @@ $sql = "DELETE FROM mahasiswa WHERE id = '$id'";
 if (mysqli_query($conn, $sql)) {
     echo "Data deleted successfully";
 
-    header('Location: tables-product.php');
+    header('Location: tables-mahasiswa.php');
     ob_end_flush();
 
 } else {

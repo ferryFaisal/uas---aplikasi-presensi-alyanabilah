@@ -188,7 +188,7 @@ if (mysqli_num_rows($result) > 0) {
                                             <a href='form_edit_product_operator.php?id=<?php echo $row['id'] ?>'><i
                                                     class="bi bi-pen"></i></a> |
                                             <a onclick="return confirm ('Are you sure ?')"
-                                                href='delete_data_product.php?id=<?php echo $row['id'] ?>'><i
+                                                href='delete_data_mahasiswa.php?id=<?php echo $row['id'] ?>'><i
                                                     class="bi bi-trash"></i></a>
                                         </td>
 

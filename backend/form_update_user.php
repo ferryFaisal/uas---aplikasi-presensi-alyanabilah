@@ -204,7 +204,7 @@ if ($_SESSION['role'] == "Admin") {
     ?>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="tables-product.php">
+                <a class="nav-link" href="tables-mahasiswa.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Table Products</span></a>
             </li>

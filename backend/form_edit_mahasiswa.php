@@ -1,6 +1,7 @@
 <?php
-require 'connect_db.php';
+require "connect_db.php";
 session_start();
+ob_start();
 if (isset($_SESSION['login'])) { //jika sudah login
     //menampilkan isi session
     // echo "<h1>Selamat Datang " . $_SESSION['login'] . "</h1>";
@@ -10,8 +11,59 @@ if (isset($_SESSION['login'])) { //jika sudah login
     //session belum ada artinya belum login
     die("Anda belum login! Anda tidak berhak masuk ke halaman ini.Silahkan login <a href='login.php'>di sini</a>");
 }
-$sql = "SELECT * FROM presensi";
+// define variables and set to empty values
+$namaErr = $nimErr = $classErr = "";
+$nama = $nim = $class = "";
+$valid_nama = $valid_nim = $valid_class = false;
+
+$sql = "SELECT * FROM mahasiswa WHERE id = '$_GET[id]'";
 $result = mysqli_query($conn, $sql);
+if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+    while ($row = mysqli_fetch_assoc($result)) {
+        $nim = $row['nim'];
+        $nama = $row['nama'];
+        $class = $row['kelas'];
+    }
+}
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // nim section
+    if (empty($_POST["nim"])) {
+        $nimErr = "NIM is required";
+        $valid_nim = false;
+    } else {
+        $nim = test_input($_POST["nim"]);
+        $valid_nim = true;
+    }
+
+    //name section
+    if (empty($_POST["nama"])) {
+        $namaErr = "Name is Required";
+        $valid_nama = false;
+    } else {
+        $nama = test_input($_POST["nama"]);
+        $valid_nama = true;
+
+    }
+    //class section
+    if (empty($_POST["kelas"])) {
+        $classErr = "Class is required";
+        $valid_class = false;
+    } else {
+        $class = test_input($_POST["kelas"]);
+        $valid_class = true;
+    }
+
+}
+
+function test_input($data)
+{
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -24,7 +76,7 @@ $result = mysqli_query($conn, $sql);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin Panel - Table Customers</title>
+    <title>Admin Panel - Table Mahasiswa</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -42,7 +94,7 @@ $result = mysqli_query($conn, $sql);
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-        <a class="navbar-brand mr-1" href="index.php">PRESENSI MAHASISWA TEKNIK INFORMATIKA</a>
+        <a class="navbar-brand mr-1" href="index.php">Start Bootstrap</a>
 
         <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
             <i class="fas fa-bars"></i>
@@ -107,29 +159,30 @@ if ($cek2 > 0) {
                     <span>Dashboard</span>
                 </a>
             </li>
-
             <?php
 if ($_SESSION['role'] == "Admin") {
 
     ?>
-            <li class="nav-item">
+            <li class="nav-item ">
                 <a class="nav-link" href="tables.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Table Users</span></a>
-            </li>
-            <?php
+                <?php
 }
 ?>
-            <li class="nav-item">
-                <a class="nav-link" href="tables-product.php">
-                    <i class="fas fa-fw fa-table"></i>
-                    <span>Table Mahasiswa</span></a>
             </li>
             <li class="nav-item active">
+                <a class="nav-link" href="tables-mahasiswa.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Table Products</span></a>
+            </li>
+
+            <li class="nav-item">
                 <a class="nav-link" href="tables-customer.php">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Table Presensi</span></a>
+                    <span>Table Customers</span></a>
             </li>
+
         </ul>
 
         <div id="content-wrapper">
@@ -142,127 +195,75 @@ if ($_SESSION['role'] == "Admin") {
                         <a href="#">Dashboard</a>
                     </li>
                     <li class="breadcrumb-item active">Tables</li>
+
                 </ol>
-                <!-- <ol>
-                    <a href="form_upload.php"><button type="button" class="btn btn-primary">Add
-                            Products</button></a>
-                </ol> -->
+
 
                 <!-- DataTables Example -->
-                <div class="card mb-3">
-                    <div class="card-header">
-                        <i class="fas fa-table"></i>
-                        Data Table Presensi
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                <thead>
-                                    <tr>
-                                        <th>Tanggal Presensi</th>
-                                        <th>Mata Kuliah</th>
-                                        <th>Kelas</th>
-                                        <th>NIM</th>
-                                        <th>Nama</th>
-                                        <th>Status Presensi</th>
-                                        <!-- <th>Photo</th>
-                                        <th>Stock</th>
+                <main>
+                    <div class="card mb-3">
 
-                                        <th>Date Modified</th>
+                        <div class="card-header">
+                            <i class="fas fa-table"></i>
+                            Add Products
+                        </div>
+                        <div class="card-body">
 
-                                        <th>Action</th> -->
-                                        <!-- <th>Date Created</th> -->
-                                    </tr>
-                                </thead>
-                                <tfoot>
-                                    <tr>
-                                    <th>Tanggal Presensi</th>
-                                        <th>Mata Kuliah</th>
-                                        <th>Kelas</th>
-                                        <th>NIM</th>
-                                        <th>Nama</th>
-                                        <th>Status Presensi</th>
-                                        <!-- <th>Photo</th>
-                                        <th>Stock</th>
+                        <p><span class="error">* required field</span></p>
+                            <form method="post" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"
+                                ENCTYPE="multipart/form-data">
 
-                                        <th>Date Modified</th>
+                                NIM : <input type="number" min="1" step="any" name="nim"
+                                value="<?php echo $nim; ?>">
+                                <span class="error">* <?php echo $nimErr; ?></span>
+                                <br><br>
+                                Nama : <input type="text"  name="nama"
+                                value="<?php echo $nama; ?>">
+                                <span class="error">* <?php echo $namaErr; ?></span>
+                                <br><br>
 
-                                        <th>Action</th> -->
-
-                                    </tr>
-                                </tfoot>
-
-                                <tbody>
-                                    <?php
-if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-    while ($row = mysqli_fetch_assoc($result)) {
-        ?>
-
-                                    <tr>
-                                        <td><?php echo $row['tgl_presensi'] ?></td>
-                                        <td><?php echo $row['makul'] ?></td>
-                                        <td><?php echo $row['kelas'] ?></td>
-                                        <td><?php echo $row['nim'] ?></td>
-                                        <td><?php echo $row['nama'] ?></td>
+                                <select class="form-select" aria-label="Default select example" name="kelas"
+                                    required="required">
+                                    <option selected>Pilih Kelas</option>
+                                    <option value="5A">5A</option>
+                                    <option value="5B">5B</option>
+                                    <span class="error">* <?php echo $classErr; ?></span>
+                                </select>
+                                <br><br>
+                                <input type="submit" name="submit" value="Submit" class="btn btn-primary">
+                            </form>
 
 
-
-                                        <!-- <td>
-                                            <a href='form_edit_product.php?id=<?php echo $row['id'] ?>'><i
-                                                    class="bi bi-pen"></i></a> |
-                                            <a onclick="return confirm ('Are you sure ?')"
-                                                href='delete_data_product.php?id=<?php echo $row['id'] ?>'><i
-                                                    class="bi bi-trash"></i></a>
-                                        </td> -->
-
-
-                                    </tr>
-                                    <?php
-} //end of while
-
-    ?>
-
-                                </tbody>
-                            </table>
                             <?php
+if ($valid_nim && $valid_nama && $valid_class == true) {
 
-} else {
-    echo "0 results";
+    include 'edit_data_mahasiswa.php';
 }
-mysqli_close($conn);
 ?>
-                         </div>
-                        <!-- </div>
-                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-                </div> -->
-
-
-
-                    </div>
-
-
-
-
-
-                </div>
-
-                <footer class="sticky-footer">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright © Alya Nabilah</span>
                         </div>
                     </div>
-                </footer>
             </div>
-            <!-- /.container-fluid -->
-            <!-- /#wrapper -->
+            </main>
+
+            <!-- Sticky Footer -->
+            <footer class="sticky-footer">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright © Alya Nabilah </span>
+                    </div>
+                </div>
+            </footer>
         </div>
-        <!-- /.content-wrapper -->
-        <!-- Scroll to Top Button-->
-        <a class="scroll-to-top rounded" href="#page-top">
-            <i class="fas fa-angle-up"></i>
-        </a>
+        <!-- /.container-fluid -->
+    </div>
+    <!-- /.content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

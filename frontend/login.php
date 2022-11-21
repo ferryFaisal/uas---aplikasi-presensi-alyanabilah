@@ -3,7 +3,7 @@
 <?php
 require "database.php";
 session_start();
-if (isset($_SESSION['login'])) {
+if (isset($_SESSION['loginfront'])) {
     die("Anda sudah login! Anda tidak berhak masuk ke halaman ini.Silahkan logout <a href='logout.php'>di sini</a>");
 }
 
@@ -24,9 +24,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($row['role'] == "Dosen") {
             // buat session login dan username
-            $_SESSION['login'] = $row['email'];
-            $_SESSION['name'] = $row['name'];
-            $_SESSION['role'] = "Admin";
+            $_SESSION['loginfront'] = $row['email'];
+            $_SESSION['namefront'] = $row['name'];
+            $_SESSION['rolefront'] = "Admin";
             // alihkan ke halaman dashboard admin
             header("location:index.php");
 

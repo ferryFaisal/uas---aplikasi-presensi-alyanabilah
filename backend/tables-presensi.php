@@ -1,8 +1,7 @@
 <?php
-require "connect_db.php";
+require 'connect_db.php';
 session_start();
-ob_start();
-if (isset($_SESSION['login']) && $_SESSION['role'] == "Operator") { //jika sudah login
+if (isset($_SESSION['login'])) { //jika sudah login
     //menampilkan isi session
     // echo "<h1>Selamat Datang " . $_SESSION['login'] . "</h1>";
     // echo "<h2>Halaman ini hanya bisa diakses jika Anda sudah login</h2>";
@@ -11,82 +10,8 @@ if (isset($_SESSION['login']) && $_SESSION['role'] == "Operator") { //jika sudah
     //session belum ada artinya belum login
     die("Anda belum login! Anda tidak berhak masuk ke halaman ini.Silahkan login <a href='login.php'>di sini</a>");
 }
-// define variables and set to empty values
-$nameErr = $descErr = $priceErr = $imageErr = "";
-$name = $desc = $price = "";
-$valid_name = $valid_desc = $valid_price = $valid_image = false;
-
-$sql = "SELECT * FROM products WHERE id = '$_GET[id]'";
+$sql = "SELECT * FROM presensi";
 $result = mysqli_query($conn, $sql);
-if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-    while ($row = mysqli_fetch_assoc($result)) {
-        $name = $row['name'];
-        $desc = $row['description'];
-        $price = $row['price'];
-        $nama_file = $row['photo'];
-    }
-}
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //product section
-    if (empty($_POST["name"])) {
-        $nameErr = "Product Name is Required";
-        $valid_name = false;
-    } else {
-        $name = test_input($_POST["name"]);
-        $valid_name = true;
-
-    }
-
-    // descript section
-    if (empty($_POST["desc"])) {
-        $descErr = "Description is required";
-        $valid_desc = false;
-    } else {
-        $desc = test_input($_POST["desc"]);
-        $valid_desc = true;
-    }
-
-    //price section
-    if (empty($_POST["price"])) {
-        $priceErr = "Price of Product is required";
-        $valid_price = false;
-    } else {
-        $price = test_input($_POST["price"]);
-        $valid_price = true;
-    }
-
-    $nama_file = $_FILES['file']['name'];
-    $dir_upload = "images/";
-    $target_file = $dir_upload . basename($_FILES["file"]["name"]);
-
-    // Select file type
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-
-    // Valid file extensions
-    $extensions_arr = array("jpg", "jpeg", "png", "gif");
-
-    // Check extension
-    if (in_array($imageFileType, $extensions_arr)) {
-        // Upload file
-        move_uploaded_file($_FILES['file']['tmp_name'], $dir_upload . $nama_file);
-        // Insert record
-        $valid_image = true;
-    } else {
-        $imageErr = "File photo is required";
-        $valid_image = false;
-
-    }
-}
-
-function test_input($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -99,7 +24,7 @@ function test_input($data)
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Admin Panel - Table Products</title>
+    <title>Admin Panel - Table Customers</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -117,7 +42,7 @@ function test_input($data)
 
     <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-        <a class="navbar-brand mr-1" href="indexOperator.php">Start Bootstrap</a>
+        <a class="navbar-brand mr-1" href="index.php">PRESENSI MAHASISWA TEKNIK INFORMATIKA</a>
 
         <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
             <i class="fas fa-bars"></i>
@@ -158,7 +83,7 @@ if ($cek2 > 0) {
 
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
 
-                        <a class="dropdown-item" href='form_update_operator.php?email=<?php echo $row2['email'] ?>'>
+                        <a class="dropdown-item" href='form_update_user.php?email=<?php echo $row2['email'] ?>'>
                             <?php echo $_SESSION['role'] ?>
                         </a>
                         <?php
@@ -177,19 +102,34 @@ if ($cek2 > 0) {
         <!-- Sidebar -->
         <ul class="sidebar navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="indexOperator.php">
+                <a class="nav-link" href="index.php">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
                     <span>Dashboard</span>
                 </a>
             </li>
 
+            <?php
+if ($_SESSION['role'] == "Admin") {
 
-            <li class="nav-item active">
-                <a class="nav-link" href="tables-product-operator.php">
+    ?>
+            <li class="nav-item">
+                <a class="nav-link" href="tables.php">
                     <i class="fas fa-fw fa-table"></i>
-                    <span>Table Products</span></a>
+                    <span>Table Users</span></a>
             </li>
-
+            <?php
+}
+?>
+            <li class="nav-item">
+                <a class="nav-link" href="tables-mahasiswa.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Table Mahasiswa</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="tables-customer.php">
+                    <i class="fas fa-fw fa-table"></i>
+                    <span>Table Presensi</span></a>
+            </li>
         </ul>
 
         <div id="content-wrapper">
@@ -202,77 +142,121 @@ if ($cek2 > 0) {
                         <a href="#">Dashboard</a>
                     </li>
                     <li class="breadcrumb-item active">Tables</li>
-
                 </ol>
-
+                <!-- <ol>
+                    <a href="form_upload.php"><button type="button" class="btn btn-primary">Add
+                            Products</button></a>
+                </ol> -->
 
                 <!-- DataTables Example -->
-                <main>
-                    <div class="card mb-3">
+                <div class="card mb-3">
+                    <div class="card-header">
+                        <i class="fas fa-table"></i>
+                        Data Table Presensi
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal Presensi</th>
+                                        <th>Mata Kuliah</th>
+                                        <th>Kelas</th>
+                                        <th>NIM</th>
+                                        <th>Nama</th>
+                                        <th>Status Presensi</th>
+                                        <!-- <th>Photo</th>
+                                        <th>Stock</th>
 
-                        <div class="card-header">
-                            <i class="fas fa-table"></i>
-                            Add Products
-                        </div>
-                        <div class="card-body">
+                                        <th>Date Modified</th>
 
-                            <p><span class="error">* required field</span></p>
-                            <form method="post" ENCTYPE="multipart/form-data">
+                                        <th>Action</th> -->
+                                        <!-- <th>Date Created</th> -->
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                    <tr>
+                                    <th>Tanggal Presensi</th>
+                                        <th>Mata Kuliah</th>
+                                        <th>Kelas</th>
+                                        <th>NIM</th>
+                                        <th>Nama</th>
+                                        <th>Status Presensi</th>
+                                        <!-- <th>Photo</th>
+                                        <th>Stock</th>
 
-                                Product Name : <input type="text" name="name" value="<?php echo $name; ?>">
-                                <span class="error">* <?php echo $nameErr; ?></span>
-                                <br><br>
-                                <label for="textarea">Description:</label>
-                                <br>
-                                <textarea name="desc" id="" cols="40" rows="5"
-                                    value="<?php echo $desc ?>"><?php echo $desc ?></textarea>
-                                <span class="error">* <?php echo $descErr; ?></span>
-                                <br><br>
+                                        <th>Date Modified</th>
 
-                                Price: <input type="number" min="1" step="any" name='price'
-                                    value="<?php echo $price ?>">
-                                <span class="error">* <?php echo $priceErr; ?></span>
-                                <br><br>
+                                        <th>Action</th> -->
 
-                                Upload Photo : <input type="file" name="file"><br><br>
-                                Recent Photo : <?php echo $nama_file ?><br>
-                                <span class="error">* <?php echo $imageErr; ?></span><br>
-                                <img src="images/<?=$nama_file?>" alt="" width="200px">
-                                <br><br>
-                                <input type="submit" name="submit" value="Submit">
-                            </form>
+                                    </tr>
+                                </tfoot>
+
+                                <tbody>
+                                    <?php
+if (mysqli_num_rows($result) > 0) {
+    // output data of each row
+    while ($row = mysqli_fetch_assoc($result)) {
+        ?>
+
+                                    <tr>
+                                        <td><?php echo $row['tgl_presensi'] ?></td>
+                                        <td><?php echo $row['makul'] ?></td>
+                                        <td><?php echo $row['kelas'] ?></td>
+                                        <td><?php echo $row['nim'] ?></td>
+                                        <td><?php echo $row['nama'] ?></td>
 
 
+
+                                        <!-- <td>
+                                            <a href='form_edit_mahasiswa.php?id=<?php echo $row['id'] ?>'><i
+                                                    class="bi bi-pen"></i></a> |
+                                            <a onclick="return confirm ('Are you sure ?')"
+                                                href='delete_data_mahasiswa.php?id=<?php echo $row['id'] ?>'><i
+                                                    class="bi bi-trash"></i></a>
+                                        </td> -->
+
+
+                                    </tr>
+                                    <?php
+} //end of while
+
+    ?>
+
+                                </tbody>
+                            </table>
                             <?php
-if ($valid_name && $valid_desc && $valid_price && $valid_image == true) {
 
-    include 'edit_data_product.php';
+} else {
+    echo "0 results";
 }
+mysqli_close($conn);
 ?>
-                        </div>
-                    </div>
-            </div>
-            </main>
+                         </div>
+                        <!-- </div>
+                    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+                </div> -->
 
-            <!-- Sticky Footer -->
-            <footer class="sticky-footer">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright © Alya Nabilah</span>
+
+
                     </div>
+
+
+
+
+
                 </div>
-            </footer>
-        </div>
-        <!-- /.container-fluid -->
-    </div>
-    <!-- /.content-wrapper -->
-    </div>
-    <!-- /#wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+
+            </div>
+            <!-- /.container-fluid -->
+            <!-- /#wrapper -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -289,7 +273,7 @@ if ($valid_name && $valid_desc && $valid_price && $valid_image == true) {
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.php">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>

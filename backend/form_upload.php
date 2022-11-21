@@ -40,8 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $class = test_input($_POST["kelas"]);
         $valid_class = true;
     }
-    
-    
+
 }
 function test_input($data)
 {
@@ -160,12 +159,12 @@ if ($_SESSION['role'] == "Admin") {
 }
 ?>
             <li class="nav-item active">
-                <a class="nav-link" href="tables-product.php">
+                <a class="nav-link" href="tables-mahasiswa.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Table Products</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="tables-customers.php">
+                <a class="nav-link" href="tables-presensi.php">
                     <i class="fas fa-fw fa-table"></i>
                     <span>Table Customers</span></a>
             </li>
